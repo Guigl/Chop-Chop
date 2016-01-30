@@ -19,6 +19,10 @@ public class Upgrade : MonoBehaviour {
 	private Button bootsButton;
 	private Button backpackButton;
 
+	private Text axeCostText; 
+	private Text bootsCostText;
+	private Text backpackCostText;
+
 
 	void UpgradeItem () {
 		//use lumberjackSelector to get lumberjack/required stats
@@ -37,21 +41,25 @@ public class Upgrade : MonoBehaviour {
 			{
 			case "Axe":
 				axeButton = but;
+				axeCostText = but.gameObject.GetComponentInChildren<Text> ();
 				break;
 			case "Boots":
 				bootsButton = but;
+				bootsCostText = but.gameObject.GetComponentInChildren<Text> ();
 				break;
 			case "Backpack":
 				backpackButton = but;
+				bootsCostText = but.gameObject.GetComponentInChildren<Text> ();
 				break;
 			default:
 				break;
 			}
 		}
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		axeCostText.text = Time.time.ToString();
 	}
 }
