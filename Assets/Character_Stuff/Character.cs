@@ -42,6 +42,7 @@ public class Character : MonoBehaviour {
 		if (doing == charStates.idle) {
 			// determine what we need to do next
 			if (backpack.Count < backpackSize) {
+				Debug.Log ("backpack.count: " + backpack.Count);
 				// find a tree
 				targetTree = GameObject.FindGameObjectWithTag ("Tree");
 				foreach (GameObject t in GameObject.FindGameObjectsWithTag("Tree")) {
@@ -95,13 +96,14 @@ public class Character : MonoBehaviour {
 				if (retval > 0) {
 					// got some lumber!
 					backpack.Add (retval);
+					Debug.Log ("chopped a tree: " + backpack.Count);
 					// check if we have more pack space
 					if (backpack.Count < backpackSize) {
 						// we can get more trees!
 						doing = charStates.idle;
 					} else {
 						// pack is full, dump it out!
-						doing = charStates.returning;
+						doing = charStates.idle;
 					}
 
 				} else if (retval == -1 || retval == -2) {
@@ -112,7 +114,7 @@ public class Character : MonoBehaviour {
 
 			}
 		} else if (doing == charStates.returning) {
-			if (Vector3.Distance (transform.position, wayPoint) > 5.0f) {
+			if (Vector3.Distance (transform.position, wayPoint) < 2.0f) {
 				transform.LookAt (wayPoint);
 				transform.position += transform.forward * walkSpeed * Time.deltaTime * 10;
 			} else {
@@ -120,6 +122,7 @@ public class Character : MonoBehaviour {
 				foreach (int val in backpack) {
 					lumberCount += val;
 				}
+				Debug.Log ("money!");
 				backpack.Clear ();
 
 				doing = charStates.idle;
