@@ -37,7 +37,6 @@ public class LumberUI : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		//Sets up the buttons
 		Canvas[] canvases = this.GetComponentsInChildren<Canvas> ();
 		foreach (Canvas canvas in canvases) 
 		{
