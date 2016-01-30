@@ -53,6 +53,7 @@ public class Character : MonoBehaviour {
 					}
 				}
 				wayPoint = targetTree.transform.position;
+				wayPoint.y = 6.0f;
 				doing = charStates.walking;
 
 			} else {
@@ -66,6 +67,7 @@ public class Character : MonoBehaviour {
 					}
 				}
 				wayPoint = targetMill.transform.position;
+				wayPoint.y = 6.0f;
 				doing = charStates.returning;
 			}
 		} else if (doing == charStates.walking) {
@@ -73,6 +75,9 @@ public class Character : MonoBehaviour {
 
 			if (Vector3.Distance (transform.position, wayPoint) > 2.0f) {
 				transform.LookAt (wayPoint);
+				Vector3 rotationVector = transform.rotation.eulerAngles;
+				rotationVector.z = 0;
+				transform.rotation = Quaternion.Euler(rotationVector);
 				transform.position += transform.forward * walkSpeed * Time.deltaTime * 10;
 			} else {
 				// we are close to the tree, start chopping
@@ -92,7 +97,14 @@ public class Character : MonoBehaviour {
 		} else if (doing == charStates.chopping) {
 			// make sure our target tree still exists
 			if (targetTree) {
+				if (axeCooldown <= 0.0f) {
+					axeCooldown = axeSpeed;
+				} else {
+					axeCooldown -= Time.fixedDeltaTime;
+					return;
+				}
 				int retval = targetTree.GetComponent<TreeBehaviour> ().getChopped (axePower);
+				
 				if (retval > 0) {
 					// got some lumber!
 					backpack.Add (retval);
@@ -114,8 +126,12 @@ public class Character : MonoBehaviour {
 
 			}
 		} else if (doing == charStates.returning) {
-			if (Vector3.Distance (transform.position, wayPoint) < 2.0f) {
+			if (Vector3.Distance (transform.position, wayPoint) >= 3.5f) {
+				
 				transform.LookAt (wayPoint);
+				Vector3 rotationVector = transform.rotation.eulerAngles;
+				rotationVector.z = 0;
+				transform.rotation = Quaternion.Euler(rotationVector);
 				transform.position += transform.forward * walkSpeed * Time.deltaTime * 10;
 			} else {
 				// empty out the backpack and get lods e mone!
@@ -133,5 +149,6 @@ public class Character : MonoBehaviour {
 
 	void setWaypoint( Vector3 point) {
 		wayPoint = point;
+		wayPoint.y = 6.0f;
 	}
 }
