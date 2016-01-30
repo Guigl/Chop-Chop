@@ -2,11 +2,14 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class Upgrade : MonoBehaviour {
+public class LumberUI : MonoBehaviour {
 
 	//This need not be constant. Could just have one upgrade
 	//object and change the lumberjack upgrade costs/stats in the canvas
-	public Selector lumberjackSelector;
+	public GameObject lumberjackSelector;
+
+	//stores the lumberjack prefab
+	public GameObject lumberjackBase;
 
 	//Need some sort of interface for lumberjack information.
 	//Linear increase in stats for now
@@ -27,6 +30,10 @@ public class Upgrade : MonoBehaviour {
 	void UpgradeItem () {
 		//use lumberjackSelector to get lumberjack/required stats
 
+	}
+
+	void createLumberjack () {
+		
 	}
 
 	// Use this for initialization
@@ -56,10 +63,8 @@ public class Upgrade : MonoBehaviour {
 			}
 		}
 
-		lumberjackSelector = this.GetComponentInParent<LumberUI> ().lumberjackSelector.GetComponent<Selector>();
-
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		//change text depending on lumberjack's stats
