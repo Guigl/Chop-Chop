@@ -25,3 +25,6 @@ Game Jam Winter 2016 - Lumberjack Idle Game
 ### saving
 
 ### map generation
+
+## Other Stuff
+* http://answers.unity3d.com/questions/650308/how-do-i-interact-with-terrain-trees.html
