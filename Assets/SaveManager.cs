@@ -36,7 +36,7 @@ public static class SaveManager {
 			jackAxePowerLevel.Add(jack.GetComponent<Character> ().axePowerLv);
 
 			jackPos.Add (jack.transform.position);
-			jackRotate.Add (Quaternion.Euler(jack.transform.rotation));
+			jackRotate.Add (Quaternion.ToEulerAngles(jack.transform.rotation));
 		}
 
 		PlayerPrefsX.SetStringArray ("JackNames", jackNames.ToArray ());
@@ -77,8 +77,7 @@ public static class SaveManager {
 
 		PlayerPrefsX.SetVector3Array ("TreePos", treePos.ToArray ());
 		PlayerPrefsX.SetIntArray ("TreeType", treeType.ToArray ());
-
-
-		
 	}
+
+
 }
