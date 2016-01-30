@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 public class Character : MonoBehaviour {
-	public enum charStates {idle, walking, chopping, returning};
+	public enum charStates {idle, readyForWork, walking, chopping, returning};
 	public string charName = "Jack";
 	public string password = "123456";
 	public float walkSpeed = 1.0f;
@@ -12,6 +12,7 @@ public class Character : MonoBehaviour {
 	public int axePower = 1;
 
 	public int backpackSize = 1;
+	public int money = 0;
 	public int lumberCount = 100;
 	public float axeCooldown = 0.0f;
 
@@ -19,18 +20,22 @@ public class Character : MonoBehaviour {
 	public GameObject targetTree;
 	public GameObject targetMill;
 
-	public charStates doing = charStates.idle;
+	public charStates doing = charStates.readyForWork;
 
 	public List<int> backpack = new List<int>();
 
-	public void loadCharacter (string n, float w, float s, int a, int b, int l) {
+	public void loadCharacter (string lumberJackName, string lumberJackPassword, float lumberJackwalkingSpeed,
+		float lumberJackAxeSpeed, int lumberJackAxePower, int lumberjackPackSize, int lumberJackMoney, int lumberJackLumberTotal) {
 		// initialize character values
-		charName = n;
-		walkSpeed = w;
-		axeSpeed = s;
-		axePower = a;
-		backpackSize = b;
-		lumberCount = l;
+		charName = lumberJackName;
+		password = lumberJackPassword;
+		walkSpeed = lumberJackwalkingSpeed;
+		axeSpeed = lumberJackAxeSpeed;
+		axePower = lumberJackAxePower;
+		backpackSize = lumberjackPackSize;
+		money = lumberJackMoney;
+		lumberCount = lumberJackLumberTotal;
+
 
 		// make the name display above their head
 		transform.GetComponentInChildren<TextMesh>().text = "Lumber" + charName;	}
@@ -39,7 +44,7 @@ public class Character : MonoBehaviour {
 	void FixedUpdate () {
 	
 		// if we are idle, find a new tree to chop
-		if (doing == charStates.idle) {
+		if (doing == charStates.readyForWork) {
 			// determine what we need to do next
 			if (backpack.Count < backpackSize) {
 				Debug.Log ("backpack.count: " + backpack.Count);
@@ -53,6 +58,7 @@ public class Character : MonoBehaviour {
 					}
 				}
 				wayPoint = targetTree.transform.position;
+				wayPoint.y = 6.0f;
 				doing = charStates.walking;
 
 			} else {
@@ -66,13 +72,17 @@ public class Character : MonoBehaviour {
 					}
 				}
 				wayPoint = targetMill.transform.position;
+				wayPoint.y = 6.0f;
 				doing = charStates.returning;
 			}
 		} else if (doing == charStates.walking) {
 			// move towards the tree
 
-			if (Vector3.Distance (transform.position, wayPoint) > 2.0f) {
+			if (Vector3.Distance (transform.position, wayPoint) > 4.0f) {
 				transform.LookAt (wayPoint);
+				Vector3 rotationVector = transform.rotation.eulerAngles;
+				rotationVector.z = 0;
+				transform.rotation = Quaternion.Euler (rotationVector);
 				transform.position += transform.forward * walkSpeed * Time.deltaTime * 10;
 			} else {
 				// we are close to the tree, start chopping
@@ -92,7 +102,14 @@ public class Character : MonoBehaviour {
 		} else if (doing == charStates.chopping) {
 			// make sure our target tree still exists
 			if (targetTree) {
+				if (axeCooldown <= 0.0f) {
+					axeCooldown = axeSpeed;
+				} else {
+					axeCooldown -= Time.fixedDeltaTime;
+					return;
+				}
 				int retval = targetTree.GetComponent<TreeBehaviour> ().getChopped (axePower);
+				
 				if (retval > 0) {
 					// got some lumber!
 					backpack.Add (retval);
@@ -100,38 +117,46 @@ public class Character : MonoBehaviour {
 					// check if we have more pack space
 					if (backpack.Count < backpackSize) {
 						// we can get more trees!
-						doing = charStates.idle;
+						doing = charStates.readyForWork;
 					} else {
 						// pack is full, dump it out!
-						doing = charStates.idle;
+						doing = charStates.readyForWork;
 					}
 
 				} else if (retval == -1 || retval == -2) {
 					// the tree is either gone, or we are too weak to cut it
-					doing = charStates.idle;
+					doing = charStates.readyForWork;
 				}
 
 
 			}
 		} else if (doing == charStates.returning) {
-			if (Vector3.Distance (transform.position, wayPoint) < 2.0f) {
+			if (Vector3.Distance (transform.position, wayPoint) >= 8f) {
+				
 				transform.LookAt (wayPoint);
+				Vector3 rotationVector = transform.rotation.eulerAngles;
+				rotationVector.z = 0;
+				transform.rotation = Quaternion.Euler (rotationVector);
 				transform.position += transform.forward * walkSpeed * Time.deltaTime * 10;
 			} else {
 				// empty out the backpack and get lods e mone!
 				foreach (int val in backpack) {
 					lumberCount += val;
+					money += val;
 				}
 				Debug.Log ("money!");
 				backpack.Clear ();
 
-				doing = charStates.idle;
+				doing = charStates.readyForWork;
 			}
+		} else if (doing == charStates.idle) {
+			// does nothing at all
 		}
 
 	}
 
 	void setWaypoint( Vector3 point) {
 		wayPoint = point;
+		wayPoint.y = 6.0f;
 	}
 }

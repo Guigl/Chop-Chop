@@ -2,27 +2,51 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class PlayerManager : MonoBehaviour {
+public class Creation : MonoBehaviour {
 
 	public Selector lumberjackSelector;
 	public LumberUI lumberUI;
 
+	public GameObject lumberjackBase;
+
 	public InputField username;
 	public InputField password;
+	public InputField passwordRepeat;
+	public Button createButton;
+	public Button cancelButton;
 	public Text error;
-	public Button loginButton;
 
-	public string wrongUsername;
-	public string wrongPassword;
+	public Vector3 spawnPoint;
 
-	public void Login () {
-		GameObject lumberjack = lumberjackSelector.findLumberjack (username.text);
-		if (lumberjack == null) {
-			Debug.Log ("WrongUsername");
-			error.text = wrongUsername;
+	//TODO: add colour custimization
+
+	public void Cancel()
+	{
+		lumberUI.displayLogin ();
+	}
+
+	public void CreateLumberjack()
+	{
+		if (lumberjackSelector.findLumberjack (username.text)) 
+		{
+			error.text = "Name is already taken";
+			return;
 		}
 
-		//Add Password
+		if (password.text != passwordRepeat.text) 
+		{
+			error.text = "Passwords don't match";
+			return;
+		}
+
+		GameObject lumberjack = Instantiate (lumberjackBase);
+		Character lumberjackCharacter = lumberjack.GetComponent<Character> ();
+		//call the loadCharacter method in lumberjackCharacter
+		lumberjack.transform.position = spawnPoint;
+
+		lumberjackSelector.addLumberjack (lumberjack);
+		lumberjackSelector.makeActiveLumberjack (lumberjack);
+		lumberUI.displayPlay ();
 
 	}
 
@@ -36,8 +60,11 @@ public class PlayerManager : MonoBehaviour {
 			string name = but.gameObject.name;
 			switch (name)
 			{
-			case "Login":
-				loginButton = but;
+			case "CreateButton":
+				createButton = but;
+				break;
+			case "CancelButton":
+				cancelButton = but;
 				break;
 			default:
 				break;
@@ -55,6 +82,9 @@ public class PlayerManager : MonoBehaviour {
 				break;
 			case "Password":
 				password = field;
+				break;
+			case "PasswordRepeat":
+				passwordRepeat = field;
 				break;
 			default:
 				break;
@@ -78,9 +108,9 @@ public class PlayerManager : MonoBehaviour {
 		lumberUI = this.GetComponentInParent<LumberUI> ();
 		lumberjackSelector = this.GetComponentInParent<LumberUI> ().lumberjackSelector.GetComponent<Selector>();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 }
