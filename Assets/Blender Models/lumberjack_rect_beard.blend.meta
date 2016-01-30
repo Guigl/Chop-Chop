@@ -8,15 +8,40 @@ ModelImporter:
     100000: Hat
     100002: Lumberjack
     100004: //RootNode
+    100006: Beard
+    100008: Eye
+    100010: Face
+    100012: Hair
+    100014: Shirt
     400000: Hat
     400002: Lumberjack
     400004: //RootNode
+    400006: Beard
+    400008: Eye
+    400010: Face
+    400012: Hair
+    400014: Shirt
     2300000: Hat
     2300002: Lumberjack
+    2300004: Beard
+    2300006: Eye
+    2300008: Face
+    2300010: Hair
+    2300012: Shirt
     3300000: Hat
     3300002: Lumberjack
+    3300004: Beard
+    3300006: Eye
+    3300008: Face
+    3300010: Hair
+    3300012: Shirt
     4300000: Hat
     4300002: Lumberjack
+    4300004: Hair
+    4300006: Shirt
+    4300008: Eye
+    4300010: Beard
+    4300012: Face
     7400000: Default Take
     9500000: //RootNode
   materials:
