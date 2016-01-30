@@ -7,26 +7,50 @@ public class Upgrade : MonoBehaviour {
 	//This need not be constant. Could just have one upgrade
 	//object and change the lumberjack upgrade costs/stats in the canvas
 	public Selector lumberjackSelector;
+	public LumberUI lumberUI;
 
 	//Need some sort of interface for lumberjack information.
 	//Linear increase in stats for now
 
-	public float axeIncrement;
+	public float axePowerIncrement;
 	public float bootsIncrement;
 	public int backpackIncrement;
 
-	private Button axeButton;
+	private Button axePowerButton;
+	private Button axeSpeedButton;
 	private Button bootsButton;
 	private Button backpackButton;
+	private Button logoutButton;
 
-	private Text axeCostText; 
+	private Text axePowerCostText;
+	private Text axeSpeedCostText;
 	private Text bootsCostText;
 	private Text backpackCostText;
 
+	public float axePowerCostBase;
+	public float axeSpeedCostBase;
+	public float bootsCostBase;
+	public float backpackCostBase;
 
-	void UpgradeItem () {
-		//use lumberjackSelector to get lumberjack/required stats
+	public void UpgradeItem () {
+		
+	}
 
+	public void Logout ()
+	{
+		lumberUI.displayLogin();
+	}
+
+	int getCost(float currentStat, string type)
+	{
+		switch (type) 
+		{
+		case "axePower":
+			break;
+		default:
+			break;
+		}
+		return 1;
 	}
 
 	// Use this for initialization
@@ -39,9 +63,13 @@ public class Upgrade : MonoBehaviour {
 			string name = but.gameObject.name;
 			switch (name)
 			{
-			case "Axe":
-				axeButton = but;
-				axeCostText = but.gameObject.GetComponentInChildren<Text> ();
+			case "AxePower":
+				axePowerButton = but;
+				axePowerCostText = but.gameObject.GetComponentInChildren<Text> ();
+				break;
+			case "AxeSpeed":
+				axeSpeedButton = but;
+				axeSpeedCostText = but.gameObject.GetComponentInChildren<Text> ();
 				break;
 			case "Boots":
 				bootsButton = but;
@@ -51,11 +79,15 @@ public class Upgrade : MonoBehaviour {
 				backpackButton = but;
 				bootsCostText = but.gameObject.GetComponentInChildren<Text> ();
 				break;
+			case "Logout":
+				logoutButton = but;
+				break;
 			default:
 				break;
 			}
 		}
 
+		lumberUI = this.GetComponentInParent<LumberUI> ();
 		lumberjackSelector = this.GetComponentInParent<LumberUI> ().lumberjackSelector.GetComponent<Selector>();
 
 	}

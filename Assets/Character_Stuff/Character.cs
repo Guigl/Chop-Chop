@@ -11,6 +11,11 @@ public class Character : MonoBehaviour {
 	public float axeSpeed = 1.0f; // time it takes to swing the axe in seconds
 	public int axePower = 1;
 
+	public int axePowerLv = 1;
+	public int axeSpeedLv = 1;
+	public int walkLv = 1;
+	public int backpackLv = 1;
+
 	public int backpackSize = 1;
 	public int money = 0;
 	public int lumberCount = 100;

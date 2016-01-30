@@ -50,7 +50,7 @@ public class LumberUI : MonoBehaviour {
 			case "Login Canvas":
 				loginCanvas = canvas;
 				break;
-			case "create Canvas":
+			case "Create Canvas":
 				createCanvas = canvas;
 				break;
 			default:

@@ -15,15 +15,37 @@ public class PlayerManager : MonoBehaviour {
 	public string wrongUsername;
 	public string wrongPassword;
 
+	void clearFields()
+	{
+		username.text = "";
+		password.text = "";
+		error.text = "";
+	}
+
+
 	public void Login () {
 		GameObject lumberjack = lumberjackSelector.findLumberjack (username.text);
 		if (lumberjack == null) {
 			Debug.Log ("WrongUsername");
 			error.text = wrongUsername;
+			return;
+		}
+		Character lumberjackCharacter = lumberjack.GetComponent<Character> ();
+
+		if (lumberjackCharacter.password != password.text) {
+			error.text = wrongPassword;
+			return;
 		}
 
-		//Add Password
+		lumberjackSelector.makeActiveLumberjack (lumberjack);
+		clearFields ();
+		lumberUI.displayPlay ();
 
+	}
+
+	public void CreateCharacter() {
+		clearFields ();
+		lumberUI.displayCreate ();
 	}
 
 	// Use this for initialization
