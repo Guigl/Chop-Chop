@@ -31,10 +31,25 @@ public static class SaveManager {
 
 
 			jackWalkLevel.Add(jack.GetComponent<Character> ().lumberCount);
-			jackBackpackLevel.Add(jack.GetComponent<Character> ());
-			jackAxeSpeedLevel.Add(jack.GetComponent<Character> ().lumberCount);
-			jackAxePowerLevel.Add(jack.GetComponent<Character> ().lumberCount);
+			jackBackpackLevel.Add(jack.GetComponent<Character> ().backpackLv);
+			jackAxeSpeedLevel.Add(jack.GetComponent<Character> ().axeSpeedLv);
+			jackAxePowerLevel.Add(jack.GetComponent<Character> ().axePowerLv);
+
+			jackPos.Add (jack.transform.position);
+			jackRotate.Add (Quaternion.Euler(jack.transform.rotation));
 		}
+
+		PlayerPrefsX.SetStringArray ("JackNames", jackNames.ToArray ());
+		PlayerPrefsX.SetStringArray ("JackPass", jackPass.ToArray ());
+
+		PlayerPrefsX.SetIntArray ("JackLumber", jackLumber.ToArray ());
+		PlayerPrefsX.SetIntArray ("JackMoney", jackMoney.ToArray ());
+
+
+		PlayerPrefsX.SetIntArray ("JackWalkLevel", jackWalkLevel.ToArray ());
+		PlayerPrefsX.SetIntArray ("JackBackpackLevel", jackBackpackLevel.ToArray ());
+		PlayerPrefsX.SetIntArray ("JackSpeedLevel", jackAxeSpeedLevel.ToArray ());
+		PlayerPrefsX.SetIntArray ("JackPowerLevel", jackAxePowerLevel.ToArray ());
 
 		// next we do the lumberMills
 
