@@ -12,6 +12,7 @@ public class Character : MonoBehaviour {
 	public int axePower = 1;
 
 	public int backpackSize = 1;
+	public int money = 0;
 	public int lumberCount = 100;
 	public float axeCooldown = 0.0f;
 
@@ -31,6 +32,7 @@ public class Character : MonoBehaviour {
 		axePower = a;
 		backpackSize = b;
 		lumberCount = l;
+
 
 		// make the name display above their head
 		transform.GetComponentInChildren<TextMesh>().text = "Lumber" + charName;	}
@@ -119,6 +121,7 @@ public class Character : MonoBehaviour {
 				// empty out the backpack and get lods e mone!
 				foreach (int val in backpack) {
 					lumberCount += val;
+					money += val;
 				}
 				backpack.Clear ();
 

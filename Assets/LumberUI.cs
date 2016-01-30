@@ -8,61 +8,57 @@ public class LumberUI : MonoBehaviour {
 	//object and change the lumberjack upgrade costs/stats in the canvas
 	public GameObject lumberjackSelector;
 
-	//stores the lumberjack prefab
-	public GameObject lumberjackBase;
-
-	//Need some sort of interface for lumberjack information.
-	//Linear increase in stats for now
-
-	public float axeIncrement;
-	public float bootsIncrement;
-	public int backpackIncrement;
-
-	private Button axeButton;
-	private Button bootsButton;
-	private Button backpackButton;
-
-	private Text axeCostText; 
-	private Text bootsCostText;
-	private Text backpackCostText;
+	public Canvas playCanvas;
+	public Canvas loginCanvas;
+	public Canvas createCanvas;
 
 
-	void UpgradeItem () {
-		//use lumberjackSelector to get lumberjack/required stats
-
+	public void displayPlay() 
+	{
+		loginCanvas.enabled = false;
+		playCanvas.enabled = true;
+		createCanvas.enabled = false;
 	}
 
-	void createLumberjack () {
-		
+	public void displayLogin()
+	{
+		loginCanvas.enabled = true;
+		playCanvas.enabled = false;
+		createCanvas.enabled = false;
+	}
+
+	public void displayCreate()
+	{
+		loginCanvas.enabled = false;
+		playCanvas.enabled = false;
+		createCanvas.enabled = true;
 	}
 
 	// Use this for initialization
 	void Start () 
 	{
 		//Sets up the buttons
-		Button[] buttons = this.GetComponentsInChildren<Button> ();
-		foreach (Button but in buttons) 
+		Canvas[] canvases = this.GetComponentsInChildren<Canvas> ();
+		foreach (Canvas canvas in canvases) 
 		{
-			string name = but.gameObject.name;
+			string name = canvas.gameObject.name;
 			switch (name)
 			{
-			case "Axe":
-				axeButton = but;
-				axeCostText = but.gameObject.GetComponentInChildren<Text> ();
+			case "Play Canvas":
+				playCanvas = canvas;
 				break;
-			case "Boots":
-				bootsButton = but;
-				bootsCostText = but.gameObject.GetComponentInChildren<Text> ();
+			case "Login Canvas":
+				loginCanvas = canvas;
 				break;
-			case "Backpack":
-				backpackButton = but;
-				bootsCostText = but.gameObject.GetComponentInChildren<Text> ();
+			case "create Canvas":
+				createCanvas = canvas;
 				break;
 			default:
 				break;
 			}
 		}
 
+		displayLogin ();
 	}
 
 	// Update is called once per frame
