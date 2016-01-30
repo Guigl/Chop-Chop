@@ -8,6 +8,7 @@ public class TreeBehaviour : MonoBehaviour {
 
 	public int lumberVal = 10;
 
+	public GameObject stump;
 
 	void Start () {
 		curHealth = maxHealth;
@@ -33,6 +34,7 @@ public class TreeBehaviour : MonoBehaviour {
 				// successful chop! check if the tree is dead
 				if (curHealth <= 0) {
 					// rip tree
+					Instantiate(stump, transform.position, Quaternion.identity);
 					Destroy (this.gameObject);
 					return lumberVal;
 				} else {
