@@ -73,7 +73,7 @@ public class Character : MonoBehaviour {
 		} else if (doing == charStates.walking) {
 			// move towards the tree
 
-			if (Vector3.Distance (transform.position, wayPoint) > 2.0f) {
+			if (Vector3.Distance (transform.position, wayPoint) > 4.0f) {
 				transform.LookAt (wayPoint);
 				Vector3 rotationVector = transform.rotation.eulerAngles;
 				rotationVector.z = 0;
@@ -126,7 +126,7 @@ public class Character : MonoBehaviour {
 
 			}
 		} else if (doing == charStates.returning) {
-			if (Vector3.Distance (transform.position, wayPoint) >= 3.5f) {
+			if (Vector3.Distance (transform.position, wayPoint) >= 8f) {
 				
 				transform.LookAt (wayPoint);
 				Vector3 rotationVector = transform.rotation.eulerAngles;
