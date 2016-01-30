@@ -5,6 +5,7 @@ using System.Collections;
 public class PlayerManager : MonoBehaviour {
 
 	public Selector lumberjackSelector;
+	public LumberUI lumberUI;
 
 	public InputField username;
 	public InputField password;
@@ -74,6 +75,7 @@ public class PlayerManager : MonoBehaviour {
 			}
 		}
 
+		lumberUI = this.GetComponentInParent<LumberUI> ();
 		lumberjackSelector = this.GetComponentInParent<LumberUI> ().lumberjackSelector.GetComponent<Selector>();
 	}
 	

@@ -5,6 +5,7 @@ using System.Collections;
 public class Creation : MonoBehaviour {
 
 	public Selector lumberjackSelector;
+	public LumberUI lumberUI;
 
 	public GameObject lumberjackBase;
 
@@ -12,9 +13,17 @@ public class Creation : MonoBehaviour {
 	public InputField password;
 	public InputField passwordRepeat;
 	public Button createButton;
+	public Button cancelButton;
 	public Text error;
 
+	public Vector3 spawnPoint;
+
 	//TODO: add colour custimization
+
+	public void Cancel()
+	{
+		lumberUI.displayLogin ();
+	}
 
 	public void CreateLumberjack()
 	{
@@ -31,6 +40,13 @@ public class Creation : MonoBehaviour {
 		}
 
 		GameObject lumberjack = Instantiate (lumberjackBase);
+		Character lumberjackCharacter = lumberjack.GetComponent<Character> ();
+		//call the loadCharacter method in lumberjackCharacter
+		lumberjack.transform.position = spawnPoint;
+
+		lumberjackSelector.addLumberjack (lumberjack);
+		lumberjackSelector.makeActiveLumberjack (lumberjack);
+		lumberUI.displayPlay ();
 
 	}
 
@@ -46,6 +62,9 @@ public class Creation : MonoBehaviour {
 			{
 			case "CreateButton":
 				createButton = but;
+				break;
+			case "CancelButton":
+				cancelButton = but;
 				break;
 			default:
 				break;
@@ -86,6 +105,7 @@ public class Creation : MonoBehaviour {
 			}
 		}
 
+		lumberUI = this.GetComponentInParent<LumberUI> ();
 		lumberjackSelector = this.GetComponentInParent<LumberUI> ().lumberjackSelector.GetComponent<Selector>();
 	}
 
