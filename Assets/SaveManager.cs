@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public static class SaveManager {
+public class SaveManager : MonoBehaviour {
+	public static List<GameObject> TypesOfTrees;
+
 
 	public static void save() {
 		// save all lumberjacks, lumbermills, and trees
@@ -48,8 +50,8 @@ public static class SaveManager {
 
 		PlayerPrefsX.SetIntArray ("JackWalkLevel", jackWalkLevel.ToArray ());
 		PlayerPrefsX.SetIntArray ("JackBackpackLevel", jackBackpackLevel.ToArray ());
-		PlayerPrefsX.SetIntArray ("JackSpeedLevel", jackAxeSpeedLevel.ToArray ());
-		PlayerPrefsX.SetIntArray ("JackPowerLevel", jackAxePowerLevel.ToArray ());
+		PlayerPrefsX.SetIntArray ("JackAxeSpeedLevel", jackAxeSpeedLevel.ToArray ());
+		PlayerPrefsX.SetIntArray ("JackAxePowerLevel", jackAxePowerLevel.ToArray ());
 
 		// next we do the lumberMills
 
@@ -79,5 +81,20 @@ public static class SaveManager {
 		PlayerPrefsX.SetIntArray ("TreeType", treeType.ToArray ());
 	}
 
+	public static void load() {
 
+		// load the lumberjacks
+		string[] jackNames = PlayerPrefsX.GetStringArray ("JackNames");
+		string[] jackPass = PlayerPrefsX.GetStringArray ("JackPass");
+
+		int[] jackLumber = PlayerPrefsX.GetIntArray ("JackLumber");
+		int[] jackMoney = PlayerPrefsX.GetIntArray ("JackMoney");
+
+		int[] jackWalkLevel = PlayerPrefsX.GetIntArray ("JackWalkLevel");
+		int[] jackBackpackLevel = PlayerPrefsX.GetIntArray ("JackBackpackLevel");
+		int[] jackSpeedLevel = PlayerPrefsX.GetIntArray ("JackAxeSpeedLevel");
+		int[] jackPowerLevel = PlayerPrefsX.GetIntArray ("JackAxePowerLevel");
+
+
+	}
 }
