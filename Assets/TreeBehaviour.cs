@@ -7,6 +7,7 @@ public class TreeBehaviour : MonoBehaviour {
 	public int armor = 0;
 
 	public int lumberVal = 10;
+	public int type; // used for saving the game
 
 	public GameObject stump;
 
