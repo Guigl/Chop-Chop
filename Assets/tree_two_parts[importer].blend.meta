@@ -1,25 +1,22 @@
 fileFormatVersion: 2
-guid: 7e0483e8a89bdb24f8a61129e8df6927
-timeCreated: 1454187870
+guid: b3039cd9c7155f441aa074c2da0f0bbd
+timeCreated: 1454183680
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Blade
-    100004: Handle
-    400000: //RootNode
-    400002: Blade
-    400004: Handle
-    2300000: //RootNode
-    2300002: Blade
-    2300004: Handle
-    3300000: //RootNode
-    3300002: Blade
-    3300004: Handle
-    4300000: Cube
-    4300002: Blade
-    4300004: Handle
+    100000: Leaves
+    100002: //RootNode
+    100004: Trunk
+    400000: Leaves
+    400002: //RootNode
+    400004: Trunk
+    2300000: Leaves
+    2300002: Trunk
+    3300000: Leaves
+    3300002: Trunk
+    4300000: Trunk
+    4300002: Leaves
     7400000: Default Take
     9500000: //RootNode
   materials:

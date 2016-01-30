@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 public class Character : MonoBehaviour {
-	public enum charStates {idle, walking, chopping, returning};
+	public enum charStates {idle, readyForWork, walking, chopping, returning};
 	public string charName = "Jack";
 	public string password = "123456";
 	public float walkSpeed = 1.0f;
@@ -25,7 +25,7 @@ public class Character : MonoBehaviour {
 	public GameObject targetTree;
 	public GameObject targetMill;
 
-	public charStates doing = charStates.idle;
+	public charStates doing = charStates.readyForWork;
 
 	public List<int> backpack = new List<int>();
 
@@ -49,7 +49,7 @@ public class Character : MonoBehaviour {
 	void FixedUpdate () {
 	
 		// if we are idle, find a new tree to chop
-		if (doing == charStates.idle) {
+		if (doing == charStates.readyForWork) {
 			// determine what we need to do next
 			if (backpack.Count < backpackSize) {
 				Debug.Log ("backpack.count: " + backpack.Count);
@@ -87,7 +87,7 @@ public class Character : MonoBehaviour {
 				transform.LookAt (wayPoint);
 				Vector3 rotationVector = transform.rotation.eulerAngles;
 				rotationVector.z = 0;
-				transform.rotation = Quaternion.Euler(rotationVector);
+				transform.rotation = Quaternion.Euler (rotationVector);
 				transform.position += transform.forward * walkSpeed * Time.deltaTime * 10;
 			} else {
 				// we are close to the tree, start chopping
@@ -122,15 +122,15 @@ public class Character : MonoBehaviour {
 					// check if we have more pack space
 					if (backpack.Count < backpackSize) {
 						// we can get more trees!
-						doing = charStates.idle;
+						doing = charStates.readyForWork;
 					} else {
 						// pack is full, dump it out!
-						doing = charStates.idle;
+						doing = charStates.readyForWork;
 					}
 
 				} else if (retval == -1 || retval == -2) {
 					// the tree is either gone, or we are too weak to cut it
-					doing = charStates.idle;
+					doing = charStates.readyForWork;
 				}
 
 
@@ -141,7 +141,7 @@ public class Character : MonoBehaviour {
 				transform.LookAt (wayPoint);
 				Vector3 rotationVector = transform.rotation.eulerAngles;
 				rotationVector.z = 0;
-				transform.rotation = Quaternion.Euler(rotationVector);
+				transform.rotation = Quaternion.Euler (rotationVector);
 				transform.position += transform.forward * walkSpeed * Time.deltaTime * 10;
 			} else {
 				// empty out the backpack and get lods e mone!
@@ -152,8 +152,10 @@ public class Character : MonoBehaviour {
 				Debug.Log ("money!");
 				backpack.Clear ();
 
-				doing = charStates.idle;
+				doing = charStates.readyForWork;
 			}
+		} else if (doing == charStates.idle) {
+			// does nothing at all
 		}
 
 	}
