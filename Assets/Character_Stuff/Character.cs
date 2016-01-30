@@ -128,13 +128,16 @@ public class Character : MonoBehaviour {
 						doing = charStates.readyForWork;
 					}
 
-				} else if (retval == -1 || retval == -2) {
+				} else if (retval < 0) {//retval == -1 || retval == -2) {
 					// the tree is either gone, or we are too weak to cut it
 					doing = charStates.readyForWork;
 				}
 
 
-			}
+			} else
+            {
+                doing = charStates.readyForWork;
+            }
 		} else if (doing == charStates.returning) {
 			if (Vector3.Distance (transform.position, wayPoint) >= 8f) {
 				

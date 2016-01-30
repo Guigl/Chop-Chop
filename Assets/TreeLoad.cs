@@ -15,8 +15,9 @@ public class TreeLoad : MonoBehaviour {
 		}
 
 		// remove the terraintrees
-		TreeInstance[] temp = new TreeInstance[0];
-		terr.treeInstances = temp;
+		Terrain.activeTerrain.treeDistance = 0;
+		/*TreeInstance[] temp = new TreeInstance[0];
+		terr.treeInstances = temp;*/
 	}
 
 }
