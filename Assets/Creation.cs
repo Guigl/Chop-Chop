@@ -16,12 +16,29 @@ public class Creation : MonoBehaviour {
 	public Button cancelButton;
 	public Text error;
 
+	public float walkSpeed = 1.0f;
+	public float axeSpeed = 1.0f; // time it takes to swing the axe in seconds
+	public int axePower = 1;
+
+	public int backpackSize = 1;
+	public int money = 0;
+	public int lumberCount = 0;
+
 	public Vector3 spawnPoint;
 
 	//TODO: add colour custimization
 
+	void clearFields()
+	{
+		username.text = "";
+		password.text = "";
+		passwordRepeat.text = "";
+		error.text = "";
+	}
+
 	public void Cancel()
 	{
+		clearFields ();
 		lumberUI.displayLogin ();
 	}
 
@@ -41,11 +58,12 @@ public class Creation : MonoBehaviour {
 
 		GameObject lumberjack = Instantiate (lumberjackBase);
 		Character lumberjackCharacter = lumberjack.GetComponent<Character> ();
-		//call the loadCharacter method in lumberjackCharacter
+		lumberjackCharacter.loadCharacter (username.text, password.text, walkSpeed, axeSpeed, axePower, backpackSize, money, lumberCount);
 		lumberjack.transform.position = spawnPoint;
 
 		lumberjackSelector.addLumberjack (lumberjack);
 		lumberjackSelector.makeActiveLumberjack (lumberjack);
+		clearFields ();
 		lumberUI.displayPlay ();
 
 	}

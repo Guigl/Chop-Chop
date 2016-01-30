@@ -11,7 +11,7 @@ public class Selector : MonoBehaviour {
 	public GameObject findLumberjack (string name) {
 		foreach (GameObject lj in lumberjacks) {
 			Character curCharacter = lj.GetComponent<Character> ();
-			if (curCharacter.name == name) {
+			if (curCharacter.charName == name) {
 				return lj; 
 			}
 		}
