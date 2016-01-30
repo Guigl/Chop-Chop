@@ -1,27 +1,27 @@
 # Chop-Chop
 Game Jam Winter 2016 - Lumberjack Idle Game
 
-TODO:
-UI
-  upgrade menu
-  floating names
-  search by name, zooms to that lumberjack
-  char create screen
+## TODO:
+### UI
+*  upgrade menu
+*  floating names
+*  search by name, zooms to that lumberjack
+*  char create screen
 
-Camera controls
+### Camera controls
 
-Character AI, behaviour
-  state machine
-  pathfinding?
+### Character AI, behaviour
+*  state machine
+*  pathfinding?
   
-Models+animation
+### Models+animation
 
-Music+voices
-  "chop chop"
-  lumber mill theme songs
-  chopping sound
-  money sound
+### Music+voices
+*  "chop chop"
+*  lumber mill theme songs
+*  chopping sound
+*  money sound
   
-saving
+### saving
 
-map generation
+### map generation
