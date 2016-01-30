@@ -24,14 +24,17 @@ public class Character : MonoBehaviour {
 
 	public List<int> backpack = new List<int>();
 
-	public void loadCharacter (string n, float w, float s, int a, int b, int l) {
+	public void loadCharacter (string lumberJackName, string lumberJackPassword, float lumberJackwalkingSpeed,
+		float lumberJackAxeSpeed, int lumberJackAxePower, int lumberjackPackSize, int lumberJackMoney, int lumberJackLumberTotal) {
 		// initialize character values
-		charName = n;
-		walkSpeed = w;
-		axeSpeed = s;
-		axePower = a;
-		backpackSize = b;
-		lumberCount = l;
+		charName = lumberJackName;
+		password = lumberJackPassword;
+		walkSpeed = lumberJackwalkingSpeed;
+		axeSpeed = lumberJackAxeSpeed;
+		axePower = lumberJackAxePower;
+		backpackSize = lumberjackPackSize;
+		money = lumberJackMoney;
+		lumberCount = lumberJackLumberTotal;
 
 
 		// make the name display above their head
