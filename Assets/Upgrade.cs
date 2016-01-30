@@ -9,6 +9,8 @@ public class Upgrade : MonoBehaviour {
 	public Selector lumberjackSelector;
 	public LumberUI lumberUI;
 
+	private Character lumberjackCharacter;
+
 	//Need some sort of interface for lumberjack information.
 	//Linear increase in stats for now
 
@@ -27,13 +29,58 @@ public class Upgrade : MonoBehaviour {
 	private Text bootsCostText;
 	private Text backpackCostText;
 
-	public float axePowerCostBase;
-	public float axeSpeedCostBase;
-	public float bootsCostBase;
-	public float backpackCostBase;
+	public float axePowerCostBase = 1.5f;
+	public float axeSpeedCostBase = 1.5f;
+	public float bootsCostBase = 1.5f;
+	public float backpackCostBase = 3f;
 
-	public void UpgradeItem () {
-		
+	public void UpgradeItem (string type) {
+		int level, cost;
+		switch (type) 
+		{
+		case "axePower":
+			level = lumberjackCharacter.axePowerLv;
+			cost = getCost (type, level);
+			if (lumberjackCharacter.money >= cost) 
+			{
+				lumberjackCharacter.money -= cost;
+				lumberjackCharacter.axePowerLv++;
+				lumberjackCharacter.axePower = Mathf.CeilToInt(getStat (type, lumberjackCharacter.axePowerLv));
+			}
+			break;
+		case "axeSpeed":
+			level = lumberjackCharacter.axeSpeedLv;
+			cost = getCost (type, level);
+			if (lumberjackCharacter.money >= cost) 
+			{
+				lumberjackCharacter.money -= cost;
+				lumberjackCharacter.axeSpeedLv++;
+				lumberjackCharacter.axeSpeed = Mathf.CeilToInt(getStat (type, lumberjackCharacter.axeSpeedLv));
+			}
+			break;
+		case "boots":
+			level = lumberjackCharacter.walkLv;
+			cost = getCost (type, level);
+			if (lumberjackCharacter.money >= cost) 
+			{
+				lumberjackCharacter.money -= cost;
+				lumberjackCharacter.walkLv++;
+				lumberjackCharacter.walkSpeed = Mathf.CeilToInt(getStat (type, lumberjackCharacter.walkLv));
+			}
+			break;
+		case "backpack":
+			level = lumberjackCharacter.backpackLv;
+			cost = getCost (type, level);
+			if (lumberjackCharacter.money >= cost) 
+			{
+				lumberjackCharacter.money -= cost;
+				lumberjackCharacter.backpackLv++;
+				lumberjackCharacter.backpackSize = Mathf.CeilToInt(getStat (type, lumberjackCharacter.backpackLv));
+			}
+			break;
+		default:
+			break;
+		}
 	}
 
 	public void Logout ()
@@ -41,16 +88,42 @@ public class Upgrade : MonoBehaviour {
 		lumberUI.displayLogin();
 	}
 
-	int getCost(float currentStat, string type)
+	int getCost(string type, int level)
 	{
 		switch (type) 
 		{
 		case "axePower":
+			return Mathf.CeilToInt (Mathf.Pow(axePowerCostBase,level));
+			break;
+		case "axeSpeed":
+			return Mathf.CeilToInt (Mathf.Pow(axeSpeedCostBase,level));
+			break;
+		case "boots":
+			return Mathf.CeilToInt (Mathf.Pow(bootsCostBase,level)); 
+			break;
+		case "backpack":
+			return Mathf.CeilToInt (Mathf.Pow(backpackCostBase,level));
 			break;
 		default:
-			break;
+			return -1;
 		}
-		return 1;
+	}
+
+	float getStat(string type, int level)
+	{
+		switch (type) 
+		{
+		case "axePower":
+			return level;
+		case "axeSpeed":
+			return 100 / (99 + level);
+		case "boots":
+			return level;
+		case "backpack":
+			return level;
+		default:
+			return -1;
+		}
 	}
 
 	// Use this for initialization
@@ -77,7 +150,7 @@ public class Upgrade : MonoBehaviour {
 				break;
 			case "Backpack":
 				backpackButton = but;
-				bootsCostText = but.gameObject.GetComponentInChildren<Text> ();
+				backpackCostText = but.gameObject.GetComponentInChildren<Text> ();
 				break;
 			case "Logout":
 				logoutButton = but;
@@ -94,7 +167,12 @@ public class Upgrade : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//change text depending on lumberjack's stats
-		//axeCostText.text = ;
+		lumberjackCharacter = lumberjackSelector.activeLumberjack.GetComponent<Character> ();
+		axePowerCostText.text = getCost ("axePower", lumberjackCharacter.axePowerLv).ToString();
+		axeSpeedCostText.text = getCost ("axeSpeed", lumberjackCharacter.axeSpeedLv).ToString();
+		bootsCostText.text = getCost ("boots", lumberjackCharacter.walkLv).ToString(); 
+		backpackCostText.text = getCost ("backpack", lumberjackCharacter.backpackLv).ToString();
+
+		//add display level to buttons
 	}
 }
