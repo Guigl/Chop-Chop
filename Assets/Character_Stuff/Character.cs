@@ -54,7 +54,7 @@ public class Character : MonoBehaviour {
 			}
 		}
 
-		output.playHello ();
+		//output.playHello ();
     }
 
     void Start()
@@ -129,7 +129,7 @@ public class Character : MonoBehaviour {
 			if (targetTree) {
 				if (axeCooldown <= 0.0f) {
 					axeCooldown = axeSpeed;
-					output.playChop ();
+					//output.playChop ();
 				} else {
 					axeCooldown -= Time.fixedDeltaTime;
 					return;
@@ -179,7 +179,7 @@ public class Character : MonoBehaviour {
 
 				doing = charStates.readyForWork;
                 m_animation.Play("Idle");
-				output.playHappy ();
+				//output.playHappy ();
             }
 		} else if (doing == charStates.idle) {
 			// does nothing at all
