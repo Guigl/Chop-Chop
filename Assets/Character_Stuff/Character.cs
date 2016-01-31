@@ -47,7 +47,11 @@ public class Character : MonoBehaviour {
 
 
 		// make the name display above their head
-		transform.GetComponentInChildren<TextMesh>().text = "Lumber" + charName;
+		foreach(TextMesh tex in transform.GetComponentsInChildren<TextMesh>()) {
+			if(tex.CompareTag("Name")) {
+				tex.text = charName;
+			}
+		}
     }
 
     void Start()
