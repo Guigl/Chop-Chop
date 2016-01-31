@@ -34,6 +34,7 @@ public class Upgrade : MonoBehaviour {
 	private Text axePowerText;
 	private Text axeSpeedText;
 	private Text bootsText;
+	private Text backpackText;
 	private Text backpackLoadText;
 	private Text backpackCapacityText;
 
@@ -178,14 +179,17 @@ public class Upgrade : MonoBehaviour {
 			case "Money":
 				moneyText = text;
 				break;
-			case "AxePower":
+			case "AxePowerLv":
 				axePowerText = text;
 				break;
-			case "AxeSpeed":
+			case "AxeSpeedLv":
 				axeSpeedText = text;
 				break;
-			case "Boots":
+			case "BootsLv":
 				bootsText = text;
+				break;
+			case "BackpackLv":
+				backpackText = text;
 				break;
 			case "BackpackLoad":
 				backpackLoadText = text;
@@ -209,17 +213,18 @@ public class Upgrade : MonoBehaviour {
         if (lumberjackSelector.activeLumberjack)
         {
             lumberjackCharacter = lumberjackSelector.activeLumberjack.GetComponent<Character>();
-            axePowerCostText.text = getCost("axePower", lumberjackCharacter.axePowerLv).ToString();
-            axeSpeedCostText.text = getCost("axeSpeed", lumberjackCharacter.axeSpeedLv).ToString();
-            bootsCostText.text = getCost("boots", lumberjackCharacter.walkLv).ToString();
-            backpackCostText.text = getCost("backpack", lumberjackCharacter.backpackLv).ToString();
+			axePowerCostText.text = "$"+getCost("axePower", lumberjackCharacter.axePowerLv).ToString();
+			axeSpeedCostText.text = "$"+getCost("axeSpeed", lumberjackCharacter.axeSpeedLv).ToString();
+			bootsCostText.text = "$"+getCost("boots", lumberjackCharacter.walkLv).ToString();
+			backpackCostText.text = "$"+getCost("backpack", lumberjackCharacter.backpackLv).ToString();
 
-            moneyText.text = lumberjackCharacter.money.ToString();
-            axePowerText.text = lumberjackCharacter.axePowerLv.ToString();
-            axeSpeedText.text = lumberjackCharacter.axeSpeedLv.ToString("F2");
-            bootsText.text = lumberjackCharacter.walkLv.ToString("F2");
-            backpackLoadText.text = lumberjackCharacter.backpack.Count.ToString();
-            backpackCapacityText.text = lumberjackCharacter.backpackSize.ToString();
+            moneyText.text = "LV. "+lumberjackCharacter.money.ToString();
+			axePowerText.text = "LV. "+lumberjackCharacter.axePowerLv.ToString();
+			axeSpeedText.text = "LV. "+lumberjackCharacter.axeSpeedLv.ToString();
+			bootsText.text = "LV. "+lumberjackCharacter.walkLv.ToString();
+			backpackText.text = "LV. "+lumberjackCharacter.backpackSize.ToString();
+			backpackLoadText.text = lumberjackCharacter.backpack.Count.ToString();
+			backpackCapacityText.text = lumberjackCharacter.backpackSize.ToString();
         }
 
 
