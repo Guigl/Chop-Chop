@@ -213,9 +213,9 @@ public class Upgrade : MonoBehaviour {
 		backpackCostText.text = getCost ("backpack", lumberjackCharacter.backpackLv).ToString();
 
 		moneyText.text = lumberjackCharacter.money.ToString();
-		axePowerText.text = lumberjackCharacter.axePower.ToString();
-		axeSpeedText.text = lumberjackCharacter.axeSpeed.ToString("F2");
-		bootsText.text = lumberjackCharacter.walkSpeed.ToString("F2");
+		axePowerText.text = lumberjackCharacter.axePowerLv.ToString();
+		axeSpeedText.text = lumberjackCharacter.axeSpeedLv.ToString("F2");
+		bootsText.text = lumberjackCharacter.walkLv.ToString("F2");
 		backpackLoadText.text = lumberjackCharacter.backpack.Count.ToString();
 		backpackCapacityText.text = lumberjackCharacter.backpackSize.ToString();
 
