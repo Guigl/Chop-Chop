@@ -46,6 +46,9 @@ public class Upgrade : MonoBehaviour {
 	public float bootsCostBase = 1.5f;
 	public float backpackCostBase = 5f;
 
+    public bool spawnMillOnClick = false;
+    public GameObject lumberMillPrefab;
+
 	//Super hacky zoom to lumberjack
 	public void zoomToLumberjack()
 	{
@@ -144,8 +147,11 @@ public class Upgrade : MonoBehaviour {
 		}
 	}
 
-	// Use this for initialization
-	void Start () 
+
+    public float mouseRayDistance = 200f;
+
+    // Use this for initialization
+    void Start () 
 	{
 		//Sets up the buttons
 		Button[] buttons = this.GetComponentsInChildren<Button> ();
@@ -260,6 +266,26 @@ public class Upgrade : MonoBehaviour {
         }
 
 
-		//add display level to buttons
-	}
+        //add display level to buttons
+
+        //spawn lumber mill
+        if (spawnMillOnClick)
+        {
+            // on click
+            if (Input.GetMouseButtonDown(0))
+            {
+                //create a ray cast and set it to the mouses cursor position in game
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, mouseRayDistance))
+                {
+                    GameObject lumberMill = Instantiate(lumberMillPrefab);
+                    LumberMillBehaviour millBehaviour = lumberMill.GetComponent<LumberMillBehaviour>();
+                    millBehaviour.setName(lumberjackSelector.activeLumberjack.name);
+                    lumberMill.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
+                    spawnMillOnClick = false;
+                }
+            }
+        }
+    }
 }
