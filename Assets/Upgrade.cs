@@ -150,7 +150,7 @@ public class Upgrade : MonoBehaviour {
 	}
 
 
-    public float mouseRayDistance = 200f;
+    private float mouseRayDistance = Mathf.Infinity;
 
     // Use this for initialization
     void Start () 

@@ -32,7 +32,7 @@ public class CameraController : MonoBehaviour {
     }
 
 
-    public float mouseRayDistance = 200f;
+    private float mouseRayDistance = Mathf.Infinity;
 
     // Update is called once per frame
     void Update()
