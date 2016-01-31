@@ -30,6 +30,7 @@ public class Creation : MonoBehaviour {
     public Material[] customMaterials;
 
 	public Vector3 spawnPoint;
+    private bool spawnOnClick;
 
 	//TODO: add colour custimization
 
@@ -45,6 +46,7 @@ public class Creation : MonoBehaviour {
 	{
 		clearFields ();
 		lumberUI.displayLogin ();
+        lumberjackSelector.cameraObject.GetComponent<CameraController>().controlEnabled = true;
 	}
 
     public void CreateLumberjackDummy()
@@ -60,6 +62,7 @@ public class Creation : MonoBehaviour {
         lumberjackDummy.transform.position = newPosition;
         Vector3 newAngles = new Vector3(-Mathf.Rad2Deg*theta, 180, 0);
         lumberjackDummy.transform.eulerAngles = newAngles;
+        lumberjackSelector.cameraObject.GetComponent<CameraController>().controlEnabled = false;
     }
 
 	public void CreateLumberjack()
@@ -75,19 +78,17 @@ public class Creation : MonoBehaviour {
 			error.text = "Passwords don't match";
 			return;
 		}
+        
+        Character lumberjackCharacter = lumberjackDummy.GetComponent<Character>();
+        lumberjackCharacter.loadCharacter(username.text, password.text, walkSpeed, axeSpeed, axePower, backpackSize, money, lumberCount);
+        lumberjackDummy.transform.position = spawnPoint;
 
-        GameObject lumberjack = lumberjackDummy;
-		Character lumberjackCharacter = lumberjack.GetComponent<Character> ();
-		lumberjackCharacter.loadCharacter (username.text, password.text, walkSpeed, axeSpeed, axePower, backpackSize, money, lumberCount);
-		lumberjack.transform.position = spawnPoint;
+        clearFields();
+        lumberUI.displayPlay();
+        lumberjackSelector.cameraObject.GetComponent<CameraController>().controlEnabled = true;
 
-		lumberjackSelector.addLumberjack (lumberjack);
-		lumberjackSelector.makeActiveLumberjack (lumberjack);
-        lumberjack.GetComponent<Character>().doing = Character.charStates.readyForWork;
-		clearFields ();
-		lumberUI.displayPlay ();
-
-	}
+        spawnOnClick = true;
+    }
 
 	// Use this for initialization
 	void Start () 
@@ -148,8 +149,26 @@ public class Creation : MonoBehaviour {
 		lumberjackSelector = this.GetComponentInParent<LumberUI> ().lumberjackSelector.GetComponent<Selector>();
     }
 
+    public float mouseRayDistance = 200f;
+
 	// Update is called once per frame
 	void Update () {
-
+        if (spawnOnClick)
+        {
+            // on click
+            if(Input.GetMouseButtonDown(0)) {
+                //create a ray cast and set it to the mouses cursor position in game
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, mouseRayDistance))
+                {
+                    lumberjackDummy.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
+                    lumberjackSelector.addLumberjack(lumberjackDummy);
+                    lumberjackSelector.makeActiveLumberjack(lumberjackDummy);
+                    lumberjackDummy.GetComponent<Character>().doing = Character.charStates.readyForWork;
+                    spawnOnClick = false;
+                }
+            }
+        }
 	}
 }
