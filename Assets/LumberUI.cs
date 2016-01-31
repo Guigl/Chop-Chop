@@ -32,7 +32,8 @@ public class LumberUI : MonoBehaviour {
 		loginCanvas.enabled = false;
 		playCanvas.enabled = false;
 		createCanvas.enabled = true;
-	}
+        createCanvas.GetComponentInParent<Creation>().CreateLumberjackDummy();
+    }
 
 	// Use this for initialization
 	void Start () 

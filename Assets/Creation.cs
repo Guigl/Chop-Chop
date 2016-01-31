@@ -9,6 +9,9 @@ public class Creation : MonoBehaviour {
 
 	public GameObject lumberjackBase;
 
+    private GameObject lumberjackDummy;
+    public float dummyDistance = 5f;
+
 	public InputField username;
 	public InputField password;
 	public InputField passwordRepeat;
@@ -23,6 +26,8 @@ public class Creation : MonoBehaviour {
 	public int backpackSize = 1;
 	public int money = 0;
 	public int lumberCount = 0;
+
+    public Material[] customMaterials;
 
 	public Vector3 spawnPoint;
 
@@ -42,6 +47,21 @@ public class Creation : MonoBehaviour {
 		lumberUI.displayLogin ();
 	}
 
+    public void CreateLumberjackDummy()
+    {
+        // create lumberjack dummy in front of camera
+        lumberjackDummy = Instantiate(lumberjackBase);
+        Vector3 newPosition = new Vector3();
+        Vector3 cameraPosition = lumberjackSelector.cameraObject.transform.position;
+        float theta = Mathf.Deg2Rad*(lumberjackSelector.cameraObject.transform.eulerAngles.x+5);
+        newPosition.x = cameraPosition.x;
+        newPosition.y = cameraPosition.y - dummyDistance * Mathf.Sin(theta);
+        newPosition.z = cameraPosition.z + dummyDistance * Mathf.Cos(theta);
+        lumberjackDummy.transform.position = newPosition;
+        Vector3 newAngles = new Vector3(-Mathf.Rad2Deg*theta, 180, 0);
+        lumberjackDummy.transform.eulerAngles = newAngles;
+    }
+
 	public void CreateLumberjack()
 	{
 		if (lumberjackSelector.findLumberjack (username.text)) 
@@ -56,13 +76,14 @@ public class Creation : MonoBehaviour {
 			return;
 		}
 
-		GameObject lumberjack = Instantiate (lumberjackBase);
+        GameObject lumberjack = lumberjackDummy;
 		Character lumberjackCharacter = lumberjack.GetComponent<Character> ();
 		lumberjackCharacter.loadCharacter (username.text, password.text, walkSpeed, axeSpeed, axePower, backpackSize, money, lumberCount);
 		lumberjack.transform.position = spawnPoint;
 
 		lumberjackSelector.addLumberjack (lumberjack);
 		lumberjackSelector.makeActiveLumberjack (lumberjack);
+        lumberjack.GetComponent<Character>().doing = Character.charStates.readyForWork;
 		clearFields ();
 		lumberUI.displayPlay ();
 
@@ -125,7 +146,7 @@ public class Creation : MonoBehaviour {
 
 		lumberUI = this.GetComponentInParent<LumberUI> ();
 		lumberjackSelector = this.GetComponentInParent<LumberUI> ().lumberjackSelector.GetComponent<Selector>();
-	}
+    }
 
 	// Update is called once per frame
 	void Update () {

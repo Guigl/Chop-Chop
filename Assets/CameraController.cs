@@ -41,7 +41,7 @@ public class CameraController : MonoBehaviour {
         // Start panning camera if zooming in close to the ground or if just zooming out
         float pan = _camera.transform.eulerAngles.x - zoomDelta * PanSpeed;
         pan = Mathf.Clamp(pan, PanAngleMin, PanAngleMax);
-        if (zoomDelta < 0 || _camera.transform.position.y < (ZoomMax / 2))
+        if (zoomDelta < 0 || _camera.transform.position.y < (ZoomMin+30))
         {
             _camera.transform.eulerAngles = new Vector3(pan, 0, 0);
         }
