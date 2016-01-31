@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Upgrade : MonoBehaviour {
 
@@ -11,6 +12,8 @@ public class Upgrade : MonoBehaviour {
 	public LumberUI lumberUI;
 
 	private Character lumberjackCharacter;
+
+	public int leaderBoardSize = 10;
 
 	//Need some sort of interface for lumberjack information.
 	//Linear increase in stats for now
@@ -37,6 +40,8 @@ public class Upgrade : MonoBehaviour {
 	private Text backpackText;
 	private Text backpackLoadText;
 	private Text backpackCapacityText;
+	private Text leaderboardText;
+	private Text leaderboardLumberText;
 
 	public float axePowerCostBase = 1.5f;
 	public float axeSpeedCostBase = 1.5f;
@@ -206,10 +211,19 @@ public class Upgrade : MonoBehaviour {
 			case "BackpackLoad":
 				backpackLoadText = text;
 				break;
+			case "LeaderBoard":
+				leaderboardText = text;
+				break;
+			case "LeaderBoardLumber":
+				leaderboardLumberText = text;
+				break;
 			default:
 				break;
 			}
 		}
+
+		leaderboardText.text = "";
+		leaderboardLumberText.text = "";
 
 
 		lumberUI = this.GetComponentInParent<LumberUI> ();
@@ -221,12 +235,16 @@ public class Upgrade : MonoBehaviour {
 	void Update () {
         if (lumberjackSelector.activeLumberjack)
         {
+	
             lumberjackCharacter = lumberjackSelector.activeLumberjack.GetComponent<Character>();
+
+			//upgrade costs
 			axePowerCostText.text = "$ "+getCost("axePower", lumberjackCharacter.axePowerLv).ToString();
 			axeSpeedCostText.text = "$ "+getCost("axeSpeed", lumberjackCharacter.axeSpeedLv).ToString();
 			bootsCostText.text = "$ "+getCost("boots", lumberjackCharacter.walkLv).ToString();
 			backpackCostText.text = "$ "+getCost("backpack", lumberjackCharacter.backpackLv).ToString();
 
+			//stats
             moneyText.text = "$ "+lumberjackCharacter.money.ToString();
 			axePowerText.text = "LV. "+lumberjackCharacter.axePowerLv.ToString();
 			axeSpeedText.text = "LV. "+lumberjackCharacter.axeSpeedLv.ToString();
@@ -234,6 +252,36 @@ public class Upgrade : MonoBehaviour {
 			backpackText.text = "LV. "+lumberjackCharacter.backpackSize.ToString();
 			backpackLoadText.text = lumberjackCharacter.backpack.Count.ToString() + " / " + 
 									lumberjackCharacter.backpackSize.ToString();
+
+			//leaderboard
+			if (lumberjackSelector.lumberjacks.Count > 0) 
+			{
+				/*
+				lumberjackSelector.lumberjacks.Sort (delegate(GameObject a, GameObject b) 
+				{
+						int val = (b.GetComponent<Character>().lumberCount).CompareTo(a.GetComponent<Character>().lumberCount);
+						if (val==0) val=1;
+						return val;
+				});
+				*/
+
+				lumberjackSelector.lumberjacks = lumberjackSelector.lumberjacks.OrderByDescending(x=>x.GetComponent<Character>().lumberCount).ToList();
+			}
+
+			leaderboardText.text = "";
+			leaderboardLumberText.text = "";
+			for (int i=0; i<leaderBoardSize && i<lumberjackSelector.lumberjacks.Count; i++) 
+			{
+				Character curCharacter = lumberjackSelector.lumberjacks [i].GetComponent<Character> ();
+				string lumberjackName = curCharacter.charName;
+				int lumberAmount = curCharacter.lumberCount;
+
+				leaderboardText.text += (i+1).ToString () + ". " + lumberjackName + '\n';
+				leaderboardLumberText.text += lumberAmount.ToString() + '\n';
+
+
+			} 
+
         }
 
 
