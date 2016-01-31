@@ -270,9 +270,12 @@ public class Upgrade : MonoBehaviour {
 
 			leaderboardText.text = "";
 			leaderboardLumberText.text = "";
+			bool activeInLeaderBoard = false;
 			for (int i=0; i<leaderBoardSize && i<lumberjackSelector.lumberjacks.Count; i++) 
 			{
-				Character curCharacter = lumberjackSelector.lumberjacks [i].GetComponent<Character> ();
+				GameObject curLumberjack = lumberjackSelector.lumberjacks [i];
+				Character curCharacter = curLumberjack.GetComponent<Character> ();
+				if (curLumberjack == lumberjackSelector.activeLumberjack) activeInLeaderBoard = true; 
 				string lumberjackName = curCharacter.charName;
 				int lumberAmount = curCharacter.lumberCount;
 
@@ -281,6 +284,18 @@ public class Upgrade : MonoBehaviour {
 
 
 			} 
+
+			if (!activeInLeaderBoard) 
+			{
+				GameObject curLumberjack = lumberjackSelector.activeLumberjack;
+				Character curCharacter = curLumberjack.GetComponent<Character> ();
+				string lumberjackName = curCharacter.charName;
+				int lumberAmount = curCharacter.lumberCount;
+				int rank = lumberjackSelector.lumberjacks.IndexOf (curLumberjack) + 1;
+
+				leaderboardText.text += rank.ToString () + ". " + lumberjackName + '\n';
+				leaderboardLumberText.text += lumberAmount.ToString() + '\n';
+			}
 
         }
 
