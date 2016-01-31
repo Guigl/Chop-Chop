@@ -72,14 +72,17 @@ public class CameraController : MonoBehaviour {
             // move active lumberjack on rightclick
             else if (Input.GetMouseButtonDown(1))
             {
-                //create a ray cast and set it to the mouses cursor position in game
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, mouseRayDistance))
-                {
-                    selector.activeLumberjack.GetComponent<Character>().wayPoint = new Vector3(hit.point.x, 0, hit.point.z);
-                    selector.activeLumberjack.GetComponent<Character>().doing = Character.charStates.walking;
-                }
+				if (selector.activeLumberjack) 
+				{
+					//create a ray cast and set it to the mouses cursor position in game
+					Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+					RaycastHit hit;
+					if (Physics.Raycast (ray, out hit, mouseRayDistance)) 
+					{
+						selector.activeLumberjack.GetComponent<Character> ().wayPoint = new Vector3 (hit.point.x, 0, hit.point.z);
+						selector.activeLumberjack.GetComponent<Character> ().doing = Character.charStates.walking;
+					}
+				}
             }
             else
             {

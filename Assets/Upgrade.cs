@@ -11,6 +11,7 @@ public class Upgrade : MonoBehaviour {
 	public Selector lumberjackSelector;
 	public LumberUI lumberUI;
 
+	//active lumberjackCharacter
 	private Character lumberjackCharacter;
 
 	public int leaderBoardSize = 10;
@@ -27,11 +28,13 @@ public class Upgrade : MonoBehaviour {
 	private Button bootsButton;
 	private Button backpackButton;
 	private Button logoutButton;
+	private Button lumberMillButton;
 
 	private Text axePowerCostText;
 	private Text axeSpeedCostText;
 	private Text bootsCostText;
 	private Text backpackCostText;
+	private Text lumberMillCostText;
 
 	private Text moneyText;
 	private Text axePowerText;
@@ -47,9 +50,19 @@ public class Upgrade : MonoBehaviour {
 	public float axeSpeedCostBase = 1.5f;
 	public float bootsCostBase = 1.5f;
 	public float backpackCostBase = 5f;
+	public int lumberMillCost = 300;
 
     public bool spawnMillOnClick = false;
     public GameObject lumberMillPrefab;
+
+	public void BuyLumberMill()
+	{
+		if (lumberjackCharacter.money >= lumberMillCost) 
+		{
+			lumberjackCharacter.money -= lumberMillCost;
+			spawnMillOnClick = true;
+		}
+	}
 
 	//Super hacky zoom to lumberjack
 	public void zoomToLumberjack()
@@ -108,6 +121,7 @@ public class Upgrade : MonoBehaviour {
 
 	public void Logout ()
 	{
+		lumberjackSelector.activeLumberjack = null;
 		lumberUI.displayLogin();
 	}
 
@@ -178,6 +192,10 @@ public class Upgrade : MonoBehaviour {
 				backpackButton = but;
 				backpackCostText = but.gameObject.GetComponentInChildren<Text> ();
 				break;
+			case "LumberMillButton":
+				lumberMillButton = but;
+				lumberMillCostText = but.gameObject.GetComponentInChildren<Text> ();
+				break;
 			case "LogoutButton":
 				logoutButton = but;
 				break;
@@ -243,6 +261,8 @@ public class Upgrade : MonoBehaviour {
 			axeSpeedCostText.text = "$ "+getCost("axeSpeed", lumberjackCharacter.axeSpeedLv).ToString();
 			bootsCostText.text = "$ "+getCost("boots", lumberjackCharacter.walkLv).ToString();
 			backpackCostText.text = "$ "+getCost("backpack", lumberjackCharacter.backpackLv).ToString();
+
+			lumberMillCostText.text = "$ " + lumberMillCost;
 
 			//stats
             moneyText.text = "$ "+lumberjackCharacter.money.ToString();
