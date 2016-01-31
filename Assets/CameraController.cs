@@ -28,25 +28,25 @@ public class CameraController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        // Init camera translation for this frame.
+        // Init camera translation for this frame
         var translation = Vector3.zero;
 
         // Zoom in or out
-        var zoomDelta = Input.GetAxis("Mouse ScrollWheel") * ZoomSpeed * Time.deltaTime;
+        float zoomDelta = Input.GetAxis("Mouse ScrollWheel") * ZoomSpeed * Time.deltaTime;
         if (zoomDelta != 0)
         {
             translation -= Vector3.up * ZoomSpeed * zoomDelta;
         }
 
-        // Start panning camera if zooming in close to the ground or if just zooming out.
-        var pan = _camera.transform.eulerAngles.x - zoomDelta * PanSpeed;
+        // Start panning camera if zooming in close to the ground or if just zooming out
+        float pan = _camera.transform.eulerAngles.x - zoomDelta * PanSpeed;
         pan = Mathf.Clamp(pan, PanAngleMin, PanAngleMax);
         if (zoomDelta < 0 || _camera.transform.position.y < (ZoomMax / 2))
         {
             _camera.transform.eulerAngles = new Vector3(pan, 0, 0);
         }
 
-        var ScaledScrollSpeed = ScrollSpeed + ScrollSpeed * (_camera.transform.position.y / (ZoomMax - ZoomMin));
+        float ScaledScrollSpeed = ScrollSpeed + ScrollSpeed * (_camera.transform.position.y / (ZoomMax - ZoomMin));
 
         // Move camera with arrow keys
         translation += new Vector3(Input.GetAxis("Horizontal") * ScaledScrollSpeed/ScrollSpeed, 0, Input.GetAxis("Vertical")*ScaledScrollSpeed/ScrollSpeed);
@@ -83,7 +83,7 @@ public class CameraController : MonoBehaviour {
         }
 
         // Keep camera within level and zoom area
-        var desiredPosition = _camera.transform.position + translation;
+        Vector3 desiredPosition = _camera.transform.position + translation;
         if (desiredPosition.x < -LevelArea || LevelArea < desiredPosition.x)
         {
             translation.x = 0;
