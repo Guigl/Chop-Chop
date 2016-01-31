@@ -4,15 +4,15 @@ Game Jam Winter 2016 - Lumberjack Idle Game
 ## TODO:
 ### UI
 *  upgrade menu
-*  floating names
+*  floating names - Done!
 *  search by name, zooms to that lumberjack
 *  char create screen
 
 ### Camera controls
 
 ### Character AI, behaviour
-*  state machine
-*  pathfinding?
+*  state machine - Done!
+*  pathfinding? - Done!
   
 ### Models+animation
 
@@ -22,9 +22,9 @@ Game Jam Winter 2016 - Lumberjack Idle Game
 *  chopping sound
 *  money sound
   
-### saving
+### saving - Partially Done!
 
-### map generation
+### map generation - Partially Done!
 
 ## Other Stuff
 * http://answers.unity3d.com/questions/650308/how-do-i-interact-with-terrain-trees.html
