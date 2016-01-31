@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Upgrade : MonoBehaviour {
 
@@ -29,6 +30,13 @@ public class Upgrade : MonoBehaviour {
 	private Text bootsCostText;
 	private Text backpackCostText;
 
+	private Text moneyText;
+	private Text axePowerText;
+	private Text axeSpeedText;
+	private Text bootsText;
+	private Text backpackLoadText;
+	private Text backpackCapacityText;
+
 	public float axePowerCostBase = 1.5f;
 	public float axeSpeedCostBase = 1.5f;
 	public float bootsCostBase = 1.5f;
@@ -55,7 +63,7 @@ public class Upgrade : MonoBehaviour {
 			{
 				lumberjackCharacter.money -= cost;
 				lumberjackCharacter.axeSpeedLv++;
-				lumberjackCharacter.axeSpeed = Mathf.CeilToInt(getStat (type, lumberjackCharacter.axeSpeedLv));
+				lumberjackCharacter.axeSpeed = getStat (type, lumberjackCharacter.axeSpeedLv);
 			}
 			break;
 		case "boots":
@@ -65,7 +73,7 @@ public class Upgrade : MonoBehaviour {
 			{
 				lumberjackCharacter.money -= cost;
 				lumberjackCharacter.walkLv++;
-				lumberjackCharacter.walkSpeed = Mathf.CeilToInt(getStat (type, lumberjackCharacter.walkLv));
+				lumberjackCharacter.walkSpeed = getStat (type, lumberjackCharacter.walkLv);
 			}
 			break;
 		case "backpack":
@@ -116,7 +124,7 @@ public class Upgrade : MonoBehaviour {
 		case "axePower":
 			return level;
 		case "axeSpeed":
-			return 100 / (99 + level);
+			return 100f / (99f + level);
 		case "boots":
 			return level;
 		case "backpack":
@@ -136,29 +144,60 @@ public class Upgrade : MonoBehaviour {
 			string name = but.gameObject.name;
 			switch (name)
 			{
-			case "AxePower":
+			case "AxePowerButton":
 				axePowerButton = but;
 				axePowerCostText = but.gameObject.GetComponentInChildren<Text> ();
 				break;
-			case "AxeSpeed":
+			case "AxeSpeedButton":
 				axeSpeedButton = but;
 				axeSpeedCostText = but.gameObject.GetComponentInChildren<Text> ();
 				break;
-			case "Boots":
+			case "BootsButton":
 				bootsButton = but;
 				bootsCostText = but.gameObject.GetComponentInChildren<Text> ();
 				break;
-			case "Backpack":
+			case "BackpackButton":
 				backpackButton = but;
 				backpackCostText = but.gameObject.GetComponentInChildren<Text> ();
 				break;
-			case "Logout":
+			case "LogoutButton":
 				logoutButton = but;
 				break;
 			default:
 				break;
 			}
 		}
+
+
+		Text[] texts = this.GetComponentsInChildren<Text> ();
+		foreach (Text text in texts) 
+		{
+			string name = text.gameObject.name;
+			switch (name)
+			{
+			case "Money":
+				moneyText = text;
+				break;
+			case "AxePower":
+				axePowerText = text;
+				break;
+			case "AxeSpeed":
+				axeSpeedText = text;
+				break;
+			case "Boots":
+				bootsText = text;
+				break;
+			case "BackpackLoad":
+				backpackLoadText = text;
+				break;
+			case "BackpackCapacity":
+				backpackCapacityText = text;
+				break;
+			default:
+				break;
+			}
+		}
+
 
 		lumberUI = this.GetComponentInParent<LumberUI> ();
 		lumberjackSelector = this.GetComponentInParent<LumberUI> ().lumberjackSelector.GetComponent<Selector>();
@@ -172,6 +211,14 @@ public class Upgrade : MonoBehaviour {
 		axeSpeedCostText.text = getCost ("axeSpeed", lumberjackCharacter.axeSpeedLv).ToString();
 		bootsCostText.text = getCost ("boots", lumberjackCharacter.walkLv).ToString(); 
 		backpackCostText.text = getCost ("backpack", lumberjackCharacter.backpackLv).ToString();
+
+		moneyText.text = lumberjackCharacter.money.ToString();
+		axePowerText.text = lumberjackCharacter.axePower.ToString();
+		axeSpeedText.text = lumberjackCharacter.axeSpeed.ToString("F2");
+		bootsText.text = lumberjackCharacter.walkSpeed.ToString("F2");
+		backpackLoadText.text = lumberjackCharacter.backpack.Count.ToString();
+		backpackCapacityText.text = lumberjackCharacter.backpackSize.ToString();
+
 
 		//add display level to buttons
 	}
