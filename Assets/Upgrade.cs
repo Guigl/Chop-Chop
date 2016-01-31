@@ -43,6 +43,12 @@ public class Upgrade : MonoBehaviour {
 	public float bootsCostBase = 1.5f;
 	public float backpackCostBase = 5f;
 
+	//Super hacky zoom to lumberjack
+	public void zoomToLumberjack()
+	{
+		lumberjackSelector.makeActiveLumberjack (lumberjackSelector.activeLumberjack);
+	}
+
 	public void UpgradeItem (string type) {
 		int level, cost;
 		switch (type) 
