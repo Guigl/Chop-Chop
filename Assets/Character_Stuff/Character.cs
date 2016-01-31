@@ -24,6 +24,7 @@ public class Character : MonoBehaviour {
 	public Vector3 wayPoint;
 	public GameObject targetTree;
 	public GameObject targetMill;
+	public LumberJackAudio output;
 
     private Animation m_animation;
 
@@ -52,6 +53,8 @@ public class Character : MonoBehaviour {
 				tex.text = charName;
 			}
 		}
+
+		output.playHello ();
     }
 
     void Start()
@@ -126,6 +129,7 @@ public class Character : MonoBehaviour {
 			if (targetTree) {
 				if (axeCooldown <= 0.0f) {
 					axeCooldown = axeSpeed;
+					output.playChop ();
 				} else {
 					axeCooldown -= Time.fixedDeltaTime;
 					return;
@@ -171,11 +175,11 @@ public class Character : MonoBehaviour {
 					lumberCount += val;
 					money += val;
 				}
-				Debug.Log ("money!");
 				backpack.Clear ();
 
 				doing = charStates.readyForWork;
                 m_animation.Play("Idle");
+				output.playHappy ();
             }
 		} else if (doing == charStates.idle) {
 			// does nothing at all
