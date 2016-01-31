@@ -12,6 +12,8 @@ public class Upgrade : MonoBehaviour {
 
 	private Character lumberjackCharacter;
 
+	public int leaderBoardSize = 10;
+
 	//Need some sort of interface for lumberjack information.
 	//Linear increase in stats for now
 
@@ -37,6 +39,7 @@ public class Upgrade : MonoBehaviour {
 	private Text backpackText;
 	private Text backpackLoadText;
 	private Text backpackCapacityText;
+	private Text leaderboardText;
 
 	public float axePowerCostBase = 1.5f;
 	public float axeSpeedCostBase = 1.5f;
@@ -200,10 +203,15 @@ public class Upgrade : MonoBehaviour {
 			case "BackpackLoad":
 				backpackLoadText = text;
 				break;
+			case "LeaderBoard":
+				leaderboardText = text;
+				break;
 			default:
 				break;
 			}
 		}
+
+		leaderboardText.text = "";
 
 
 		lumberUI = this.GetComponentInParent<LumberUI> ();
@@ -215,12 +223,16 @@ public class Upgrade : MonoBehaviour {
 	void Update () {
         if (lumberjackSelector.activeLumberjack)
         {
+	
             lumberjackCharacter = lumberjackSelector.activeLumberjack.GetComponent<Character>();
+
+			//upgrade costs
 			axePowerCostText.text = "$ "+getCost("axePower", lumberjackCharacter.axePowerLv).ToString();
 			axeSpeedCostText.text = "$ "+getCost("axeSpeed", lumberjackCharacter.axeSpeedLv).ToString();
 			bootsCostText.text = "$ "+getCost("boots", lumberjackCharacter.walkLv).ToString();
 			backpackCostText.text = "$ "+getCost("backpack", lumberjackCharacter.backpackLv).ToString();
 
+			//stats
             moneyText.text = "$ "+lumberjackCharacter.money.ToString();
 			axePowerText.text = "LV. "+lumberjackCharacter.axePowerLv.ToString();
 			axeSpeedText.text = "LV. "+lumberjackCharacter.axeSpeedLv.ToString();
@@ -228,6 +240,23 @@ public class Upgrade : MonoBehaviour {
 			backpackText.text = "LV. "+lumberjackCharacter.backpackSize.ToString();
 			backpackLoadText.text = lumberjackCharacter.backpack.Count.ToString() + " / " + 
 									lumberjackCharacter.backpackSize.ToString();
+
+			//leaderboard
+			if (lumberjackSelector.lumberjacks.Count > 0) 
+			{
+				lumberjackSelector.lumberjacks.Sort (delegate(GameObject a, GameObject b) 
+				{
+						return (b.GetComponent<Character>().lumberCount).CompareTo(a.GetComponent<Character>().lumberCount);
+				});
+			}
+
+			leaderboardText.text = "";
+			for (int i=0; i<leaderBoardSize && i<lumberjackSelector.lumberjacks.Count; i++) 
+			{
+				string lumberjackName = lumberjackSelector.lumberjacks [i].GetComponent<Character> ().charName;
+				leaderboardText.text += (i+1).ToString () + ". " + lumberjackName + '\n';
+			} 
+
         }
 
 
