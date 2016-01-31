@@ -40,7 +40,7 @@ public class Upgrade : MonoBehaviour {
 	public float axePowerCostBase = 1.5f;
 	public float axeSpeedCostBase = 1.5f;
 	public float bootsCostBase = 1.5f;
-	public float backpackCostBase = 3f;
+	public float backpackCostBase = 5f;
 
 	public void UpgradeItem (string type) {
 		int level, cost;
@@ -122,11 +122,11 @@ public class Upgrade : MonoBehaviour {
 		switch (type) 
 		{
 		case "axePower":
-			return level;
+			return level*2f;
 		case "axeSpeed":
 			return 100f / (99f + level);
 		case "boots":
-			return level;
+			return level*1.5f;
 		case "backpack":
 			return level;
 		default:

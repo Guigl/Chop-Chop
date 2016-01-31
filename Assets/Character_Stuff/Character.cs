@@ -25,6 +25,10 @@ public class Character : MonoBehaviour {
 	public GameObject targetTree;
 	public GameObject targetMill;
 
+    private Animation m_animation;
+
+    public float yOffset = 0.0f;
+
 	public charStates doing = charStates.readyForWork;
 
 	public List<int> backpack = new List<int>();
@@ -43,7 +47,17 @@ public class Character : MonoBehaviour {
 
 
 		// make the name display above their head
-		transform.GetComponentInChildren<TextMesh>().text = "Lumber" + charName;	}
+		foreach(TextMesh tex in transform.GetComponentsInChildren<TextMesh>()) {
+			if(tex.CompareTag("Name")) {
+				tex.text = charName;
+			}
+		}
+    }
+
+    void Start()
+    {
+        m_animation = GetComponentInChildren<Animation>();
+    }
 
 
 	void FixedUpdate () {
@@ -63,8 +77,9 @@ public class Character : MonoBehaviour {
 					}
 				}
 				wayPoint = targetTree.transform.position;
-				wayPoint.y = 6.0f;
+				wayPoint.y = yOffset;
 				doing = charStates.walking;
+                m_animation.Play("Walking");
 
 			} else {
 				// find a lumbermill to deposit wood at
@@ -77,9 +92,10 @@ public class Character : MonoBehaviour {
 					}
 				}
 				wayPoint = targetMill.transform.position;
-				wayPoint.y = 6.0f;
+				wayPoint.y = yOffset;
 				doing = charStates.returning;
-			}
+                m_animation.Play("Walking");
+            }
 		} else if (doing == charStates.walking) {
 			// move towards the tree
 
@@ -92,9 +108,10 @@ public class Character : MonoBehaviour {
 			} else {
 				// we are close to the tree, start chopping
 				doing = charStates.chopping;
+                m_animation.Play("Chopping");
 
-				// select the closest tree to start chopping
-				targetTree = GameObject.FindGameObjectWithTag ("Tree");
+                // select the closest tree to start chopping
+                targetTree = GameObject.FindGameObjectWithTag ("Tree");
 				foreach (GameObject t in GameObject.FindGameObjectsWithTag("Tree")) {
 					if (Vector3.Distance (this.transform.position, t.transform.position) <
 					    Vector3.Distance (this.transform.position, targetTree.transform.position)) {
@@ -131,12 +148,14 @@ public class Character : MonoBehaviour {
 				} else if (retval < 0) {//retval == -1 || retval == -2) {
 					// the tree is either gone, or we are too weak to cut it
 					doing = charStates.readyForWork;
-				}
+                    m_animation.Play("Idle");
+                }
 
 
 			} else
             {
                 doing = charStates.readyForWork;
+                m_animation.Play("Idle");
             }
 		} else if (doing == charStates.returning) {
 			if (Vector3.Distance (transform.position, wayPoint) >= 8f) {
@@ -156,7 +175,8 @@ public class Character : MonoBehaviour {
 				backpack.Clear ();
 
 				doing = charStates.readyForWork;
-			}
+                m_animation.Play("Idle");
+            }
 		} else if (doing == charStates.idle) {
 			// does nothing at all
 		}
@@ -165,6 +185,6 @@ public class Character : MonoBehaviour {
 
 	void setWaypoint( Vector3 point) {
 		wayPoint = point;
-		wayPoint.y = 6.0f;
+		wayPoint.y = yOffset;
 	}
 }
