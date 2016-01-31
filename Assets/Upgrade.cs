@@ -161,18 +161,20 @@ public class Upgrade : MonoBehaviour {
 		}
 
 		lumberUI = this.GetComponentInParent<LumberUI> ();
-		lumberjackSelector = this.GetComponentInParent<LumberUI> ().lumberjackSelector.GetComponent<Selector>();
+		lumberjackSelector = lumberUI.lumberjackSelector.GetComponent<Selector>();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		lumberjackCharacter = lumberjackSelector.activeLumberjack.GetComponent<Character> ();
-		axePowerCostText.text = getCost ("axePower", lumberjackCharacter.axePowerLv).ToString();
-		axeSpeedCostText.text = getCost ("axeSpeed", lumberjackCharacter.axeSpeedLv).ToString();
-		bootsCostText.text = getCost ("boots", lumberjackCharacter.walkLv).ToString(); 
-		backpackCostText.text = getCost ("backpack", lumberjackCharacter.backpackLv).ToString();
-
+        if (lumberjackSelector.activeLumberjack)
+        {
+            lumberjackCharacter = lumberjackSelector.activeLumberjack.GetComponent<Character>();
+            axePowerCostText.text = getCost("axePower", lumberjackCharacter.axePowerLv).ToString();
+            axeSpeedCostText.text = getCost("axeSpeed", lumberjackCharacter.axeSpeedLv).ToString();
+            bootsCostText.text = getCost("boots", lumberjackCharacter.walkLv).ToString();
+            backpackCostText.text = getCost("backpack", lumberjackCharacter.backpackLv).ToString();
+        }
 		//add display level to buttons
 	}
 }
