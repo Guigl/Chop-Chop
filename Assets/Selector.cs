@@ -69,7 +69,7 @@ public class Selector : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (zoomToLumberjack)
+		if (zoomToLumberjack && activeLumberjack)
         {
             float new_x = Mathf.SmoothDamp(cameraObject.transform.position.x, activeLumberjack.transform.position.x, ref velocity_x, 1f);
             float new_z = Mathf.SmoothDamp(cameraObject.transform.position.z, activeLumberjack.transform.position.z - cameraObject.transform.position.y / Mathf.Tan(Mathf.Deg2Rad*cameraObject.transform.eulerAngles.x), ref velocity_z, 1f);
