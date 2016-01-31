@@ -72,9 +72,9 @@ public class Selector : MonoBehaviour {
         if (zoomToLumberjack)
         {
             float new_x = Mathf.SmoothDamp(cameraObject.transform.position.x, activeLumberjack.transform.position.x, ref velocity_x, 1f);
-            float new_z = Mathf.SmoothDamp(cameraObject.transform.position.z, activeLumberjack.transform.position.z - 1.5f*cameraObject.transform.position.y / Mathf.Tan(Mathf.Deg2Rad*cameraObject.transform.eulerAngles.x), ref velocity_z, 1f);
+            float new_z = Mathf.SmoothDamp(cameraObject.transform.position.z, activeLumberjack.transform.position.z - cameraObject.transform.position.y / Mathf.Tan(Mathf.Deg2Rad*cameraObject.transform.eulerAngles.x), ref velocity_z, 1f);
             cameraObject.transform.position = new Vector3(new_x, cameraObject.transform.position.y, new_z);
-            if (Mathf.Abs(cameraObject.transform.position.z - (activeLumberjack.transform.position.z - 1.5f * cameraObject.transform.position.y) / Mathf.Tan(Mathf.Deg2Rad*cameraObject.transform.eulerAngles.x)) < 5)
+            if (Mathf.Abs(cameraObject.transform.position.z - (activeLumberjack.transform.position.z - cameraObject.transform.position.y / Mathf.Tan(Mathf.Deg2Rad*cameraObject.transform.eulerAngles.x))) < 5)
             {
                 zoomToLumberjack = false;
             }
