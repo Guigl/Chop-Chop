@@ -149,10 +149,10 @@ public class Creation : MonoBehaviour {
 		lumberjackSelector = this.GetComponentInParent<LumberUI> ().lumberjackSelector.GetComponent<Selector>();
     }
 
-    public float mouseRayDistance = 200f;
+    private float mouseRayDistance = Mathf.Infinity;
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
         if (spawnOnClick)
         {
             // on click
