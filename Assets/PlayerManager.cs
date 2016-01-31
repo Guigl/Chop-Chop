@@ -38,6 +38,7 @@ public class PlayerManager : MonoBehaviour {
 		}
 
 		lumberjackSelector.makeActiveLumberjack (lumberjack);
+        lumberjackSelector.zoomToActiveLumberjack();
 		clearFields ();
 		lumberUI.displayPlay ();
 
