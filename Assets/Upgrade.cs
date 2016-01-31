@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Upgrade : MonoBehaviour {
 
@@ -40,6 +41,7 @@ public class Upgrade : MonoBehaviour {
 	private Text backpackLoadText;
 	private Text backpackCapacityText;
 	private Text leaderboardText;
+	private Text leaderboardLumberText;
 
 	public float axePowerCostBase = 1.5f;
 	public float axeSpeedCostBase = 1.5f;
@@ -212,12 +214,16 @@ public class Upgrade : MonoBehaviour {
 			case "LeaderBoard":
 				leaderboardText = text;
 				break;
+			case "LeaderBoardLumber":
+				leaderboardLumberText = text;
+				break;
 			default:
 				break;
 			}
 		}
 
 		leaderboardText.text = "";
+		leaderboardLumberText.text = "";
 
 
 		lumberUI = this.GetComponentInParent<LumberUI> ();
@@ -250,17 +256,30 @@ public class Upgrade : MonoBehaviour {
 			//leaderboard
 			if (lumberjackSelector.lumberjacks.Count > 0) 
 			{
+				/*
 				lumberjackSelector.lumberjacks.Sort (delegate(GameObject a, GameObject b) 
 				{
-						return (b.GetComponent<Character>().lumberCount).CompareTo(a.GetComponent<Character>().lumberCount);
+						int val = (b.GetComponent<Character>().lumberCount).CompareTo(a.GetComponent<Character>().lumberCount);
+						if (val==0) val=1;
+						return val;
 				});
+				*/
+
+				lumberjackSelector.lumberjacks = lumberjackSelector.lumberjacks.OrderByDescending(x=>x.GetComponent<Character>().lumberCount).ToList();
 			}
 
 			leaderboardText.text = "";
+			leaderboardLumberText.text = "";
 			for (int i=0; i<leaderBoardSize && i<lumberjackSelector.lumberjacks.Count; i++) 
 			{
-				string lumberjackName = lumberjackSelector.lumberjacks [i].GetComponent<Character> ().charName;
+				Character curCharacter = lumberjackSelector.lumberjacks [i].GetComponent<Character> ();
+				string lumberjackName = curCharacter.charName;
+				int lumberAmount = curCharacter.lumberCount;
+
 				leaderboardText.text += (i+1).ToString () + ". " + lumberjackName + '\n';
+				leaderboardLumberText.text += lumberAmount.ToString() + '\n';
+
+
 			} 
 
         }
