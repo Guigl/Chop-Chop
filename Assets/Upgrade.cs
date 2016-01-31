@@ -337,6 +337,7 @@ public class Upgrade : MonoBehaviour {
                     LumberMillBehaviour millBehaviour = lumberMill.GetComponent<LumberMillBehaviour>();
                     millBehaviour.setName(lumberjackSelector.activeLumberjack.name);
                     lumberMill.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
+					lumberMill.GetComponent<LumberMillBehaviour> ().setName (lumberjackCharacter.charName);
                     spawnMillOnClick = false;
                 }
             }
