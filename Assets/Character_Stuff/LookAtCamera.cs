@@ -12,5 +12,9 @@ public class LookAtCamera : MonoBehaviour {
 	
 	void Update () {
 		transform.LookAt(cam.transform.position);
+		Vector3 rotationVector = transform.rotation.eulerAngles;
+		rotationVector.z = 0;
+		rotationVector.y = 180;
+		transform.rotation = Quaternion.Euler (rotationVector);
 	}
 }
