@@ -153,9 +153,9 @@ public class Upgrade : MonoBehaviour {
 		case "axePower":
 			return level*2f;
 		case "axeSpeed":
-			return 100f / (99f + level);
+			return 100f / (99f + 10*level);
 		case "boots":
-			return level*1.5f;
+			return level*0.5f +0.5f;
 		case "backpack":
 			return level;
 		default:
