@@ -206,18 +206,21 @@ public class Upgrade : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		lumberjackCharacter = lumberjackSelector.activeLumberjack.GetComponent<Character> ();
-		axePowerCostText.text = getCost ("axePower", lumberjackCharacter.axePowerLv).ToString();
-		axeSpeedCostText.text = getCost ("axeSpeed", lumberjackCharacter.axeSpeedLv).ToString();
-		bootsCostText.text = getCost ("boots", lumberjackCharacter.walkLv).ToString(); 
-		backpackCostText.text = getCost ("backpack", lumberjackCharacter.backpackLv).ToString();
+        if (lumberjackSelector.activeLumberjack)
+        {
+            lumberjackCharacter = lumberjackSelector.activeLumberjack.GetComponent<Character>();
+            axePowerCostText.text = getCost("axePower", lumberjackCharacter.axePowerLv).ToString();
+            axeSpeedCostText.text = getCost("axeSpeed", lumberjackCharacter.axeSpeedLv).ToString();
+            bootsCostText.text = getCost("boots", lumberjackCharacter.walkLv).ToString();
+            backpackCostText.text = getCost("backpack", lumberjackCharacter.backpackLv).ToString();
 
-		moneyText.text = lumberjackCharacter.money.ToString();
-		axePowerText.text = lumberjackCharacter.axePowerLv.ToString();
-		axeSpeedText.text = lumberjackCharacter.axeSpeedLv.ToString("F2");
-		bootsText.text = lumberjackCharacter.walkLv.ToString("F2");
-		backpackLoadText.text = lumberjackCharacter.backpack.Count.ToString();
-		backpackCapacityText.text = lumberjackCharacter.backpackSize.ToString();
+            moneyText.text = lumberjackCharacter.money.ToString();
+            axePowerText.text = lumberjackCharacter.axePowerLv.ToString();
+            axeSpeedText.text = lumberjackCharacter.axeSpeedLv.ToString("F2");
+            bootsText.text = lumberjackCharacter.walkLv.ToString("F2");
+            backpackLoadText.text = lumberjackCharacter.backpack.Count.ToString();
+            backpackCapacityText.text = lumberjackCharacter.backpackSize.ToString();
+        }
 
 
 		//add display level to buttons
