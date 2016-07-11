@@ -27,6 +27,7 @@ public class Character : MonoBehaviour {
 	public LumberJackAudio output;
 
     private Animation m_animation;
+	private float sphereSize = 2.0f;
 
     public float yOffset = 0.0f;
 
@@ -71,15 +72,31 @@ public class Character : MonoBehaviour {
 			if (backpack.Count < backpackSize) {
 				Debug.Log ("backpack.count: " + backpack.Count);
 				// find a tree
-				targetTree = GameObject.FindGameObjectWithTag ("Tree");
-				foreach (GameObject t in GameObject.FindGameObjectsWithTag("Tree")) {
-					if (Vector3.Distance (this.transform.position, t.transform.position) <
-					    Vector3.Distance (this.transform.position, targetTree.transform.position)) {
-
-						targetTree = t;
+				targetTree = null;
+				while (targetTree == null) {
+					Collider[] collList = Physics.OverlapSphere (transform.position, sphereSize);
+					int i = 0;
+					for (i = 0; i < collList.Length; i++) {
+						if (collList [i].tag == "Tree") {
+							targetTree = collList [i].gameObject;
+							break;
+						}
+					}
+					if (targetTree == null) {
+						// try again with a larger sphere
+						sphereSize *= 2.0f;
+						continue;
+					}
+					for (; i < collList.Length; i++) {
+						if (collList[i].gameObject.transform.tag == "Tree" 
+						 && Vector3.Distance (this.transform.position, collList[i].transform.position) <
+						 Vector3.Distance (this.transform.position, targetTree.transform.position)) {
+							targetTree = collList[i].gameObject;
+						}
 					}
 				}
 				wayPoint = targetTree.transform.position;
+				Debug.Log (wayPoint);
 				wayPoint.y = yOffset;
 				doing = charStates.walking;
                 m_animation.Play("Walking");
